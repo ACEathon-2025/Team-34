@@ -56,7 +56,7 @@ export default function UserDashboard({ setUser }) {
                 Category: <b>{c.category}</b>
               </p>
               <p>
-                Confidence: <b>{c.confidence}%</b>
+                Confidence: <b>{Number(c.confidence || 0).toFixed(2)}%</b>
               </p>
               <p>
                 Status: <b>{c.status}</b>

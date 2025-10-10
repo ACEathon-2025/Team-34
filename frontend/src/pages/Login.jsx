@@ -14,7 +14,6 @@ const Login = ({ setUser }) => {
       const res = await API.post("/auth/login", { email, password });
       const payload = { token: res.data.token, role: res.data.role };
 
-      // Save in localStorage AND update App state
       localStorage.setItem("user", JSON.stringify(payload));
       setUser(payload);
 

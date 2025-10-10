@@ -8,7 +8,7 @@ const categories = [
   "garbage or waste management",
   "water supply or leakage",
   "streetlight or electricity issue",
-  "noise pollution or disturbance",
+  "noise pollution",
 ];
 
 export async function analyzeComplaint(text) {
@@ -18,16 +18,13 @@ export async function analyzeComplaint(text) {
     if (!classifierPipeline)
       classifierPipeline = await pipeline("zero-shot-classification");
 
-    console.log("Analyzing complaint text:", text);
-
     const sentimentResult = await sentimentPipeline(text);
-    console.log("Sentiment result:", sentimentResult);
 
     const classificationResult = await classifierPipeline(text, categories);
-    console.log("Category result:", classificationResult);
 
     return {
       sentiment: sentimentResult[0].label,
+      sentimentConfidence: Number((sentimentResult[0].score * 100).toFixed(2)),
       category: classificationResult.labels[0],
       confidence: Number((classificationResult.scores[0] * 100).toFixed(2)),
     };
@@ -35,6 +32,7 @@ export async function analyzeComplaint(text) {
     console.error("Error in ML analysis:", error);
     return {
       sentiment: "UNKNOWN",
+      sentimentConfidence: 0,
       category: "UNCATEGORIZED",
       confidence: 0,
     };

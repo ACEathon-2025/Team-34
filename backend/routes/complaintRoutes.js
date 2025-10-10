@@ -6,12 +6,10 @@ import { analyzeComplaint } from "../ml/mlAnalyzer.js";
 
 const router = express.Router();
 
-// 🧾 Create new complaint (with ML)
 router.post("/", protect, async (req, res) => {
   try {
     const { title, description } = req.body;
 
-    // Run AI analysis
     const aiResult = await analyzeComplaint(`${title} ${description}`);
 
     const complaint = await Complaint.create({
@@ -19,6 +17,7 @@ router.post("/", protect, async (req, res) => {
       title,
       description,
       sentiment: aiResult.sentiment,
+      sentimentConfidence: aiResult.sentimentConfidence,
       category: aiResult.category,
       confidence: aiResult.confidence,
       status: "Pending",
@@ -31,7 +30,6 @@ router.post("/", protect, async (req, res) => {
   }
 });
 
-// 🧍 User - Get own complaints
 router.get("/", protect, async (req, res) => {
   try {
     const complaints = await Complaint.find({ user: req.user.id });
@@ -41,7 +39,6 @@ router.get("/", protect, async (req, res) => {
   }
 });
 
-// 🏛️ Authority - Get all complaints
 router.get("/all", protect, async (req, res) => {
   try {
     if (req.user.role !== "authority")
@@ -54,7 +51,6 @@ router.get("/all", protect, async (req, res) => {
   }
 });
 
-// 🔄 Update complaint status
 router.put("/:id", protect, async (req, res) => {
   try {
     const { status } = req.body;

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../api/api";
+import CategoryChart from "../components/CategoryChart";
 
 export default function AuthorityDashboard({ setUser }) {
   const [complaints, setComplaints] = useState([]);
@@ -43,7 +44,8 @@ export default function AuthorityDashboard({ setUser }) {
           Logout
         </button>
       </div>
-
+      <CategoryChart />
+      <br></br>
       <div className="grid gap-4">
         {complaints.map((c) => (
           <div key={c._id} className="bg-white p-4 rounded shadow-md">
@@ -52,14 +54,16 @@ export default function AuthorityDashboard({ setUser }) {
             <p className="text-sm mt-2 text-gray-600">User: {c.user?.email}</p>
             <div className="mt-2 text-sm text-gray-600">
               <p>
-                Sentiment: <b>{c.sentiment}</b>
-              </p>
-              <p>
                 Category: <b>{c.category}</b>
               </p>
+
               <p>
-                Confidence: <b>{(c.confidence * 100).toFixed(2)}%</b>
+                Sentiment: <b>{c.sentiment}</b> ({c.sentimentConfidence}%)
               </p>
+              <p>
+                Category: <b>{c.category}</b> ({c.confidence}%)
+              </p>
+
               <p>
                 Status: <b>{c.status}</b>
               </p>

@@ -24,37 +24,54 @@ export default function ComplaintForm({ onComplaintAdded }) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white p-6 rounded shadow-md w-full max-w-md mb-6"
-    >
-      <h2 className="text-xl font-semibold mb-4 text-center">
-        Submit Complaint
-      </h2>
-      <input
-        type="text"
-        placeholder="Complaint Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className="w-full border p-2 mb-3 rounded"
-        required
-      />
-      <textarea
-        placeholder="Complaint Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        className="w-full border p-2 mb-3 rounded"
-        required
-      />
-      <button
-        type="submit"
-        disabled={loading}
-        className={`w-full py-2 rounded text-white ${
-          loading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
-        }`}
+    <div className="flex justify-center items-center min-h-[80vh] bg-gray-100">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white w-full max-w-2xl p-8 rounded-2xl shadow-lg"
       >
-        {loading ? "Analyzing..." : "Submit"}
-      </button>
-    </form>
+        <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">
+          📝 Submit a Complaint
+        </h2>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2 font-medium">
+            Complaint Title
+          </label>
+          <input
+            type="text"
+            placeholder="Enter complaint title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-full border border-gray-300 p-3 rounded-md focus:ring-2 focus:ring-blue-400 outline-none"
+            required
+          />
+        </div>
+
+        <div className="mb-6">
+          <label className="block text-gray-700 mb-2 font-medium">
+            Description
+          </label>
+          <textarea
+            placeholder="Describe your complaint in detail..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full border border-gray-300 p-3 rounded-md h-32 resize-none focus:ring-2 focus:ring-blue-400 outline-none"
+            required
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={loading}
+          className={`w-full py-3 text-lg font-semibold rounded-lg text-white transition ${
+            loading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-700"
+          }`}
+        >
+          {loading ? "Analyzing..." : "Submit Complaint"}
+        </button>
+      </form>
+    </div>
   );
 }
