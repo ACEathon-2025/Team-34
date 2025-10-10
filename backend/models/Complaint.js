@@ -1,16 +1,17 @@
-const mongoose = require("mongoose");
+// backend/models/Complaint.js
+import mongoose from "mongoose";
 
-const complaintSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  title: String,
-  description: String,
-  status: {
-    type: String,
-    enum: ["pending", "in-progress", "resolved"],
-    default: "pending",
+const complaintSchema = new mongoose.Schema(
+  {
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    sentiment: { type: String },
+    category: { type: String },
+    confidence: { type: String },
+    status: { type: String, default: "Pending" },
   },
-  date: { type: Date, default: Date.now },
-});
+  { timestamps: true }
+);
 
-const Complaint = mongoose.model("Complaint", complaintSchema);
-module.exports = Complaint;
+export default mongoose.model("Complaint", complaintSchema);
